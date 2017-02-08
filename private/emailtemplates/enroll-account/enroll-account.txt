@@ -1,0 +1,7 @@
+Welcome to Kilgore Design, {{name}}!\n\n
+
+To verify your email address ({{emailAddress}}) and set up your password visit the following link:\n\n
+
+{{verificationLink}}\n\n
+
+If you feel something is wrong, please contact our support team: {{supportEmail}}.

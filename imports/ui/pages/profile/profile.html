@@ -1,0 +1,52 @@
+<template name="Profile">
+    {{#with profileData}}
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="tab-1" class="tab-pane active">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="p-sm text-center">
+                                {{#if imageId}}
+                                    <img class="img-responsive center-block img-circle fh-250" src="{{c.url imageId}}" style="{{#if isLoading}}opacity: 0.5{{/if}}">
+                                {{else}}
+                                    <img class="img-responsive center-block img-circle fh-250" src="/img/blank-profile-picture.png">
+                                {{/if}}
+                                <div style="margin-top: 15px;">
+                                    <label for="upload-photo" class="btn btn-success btn-file ladda-button" data-style="zoom-in" disabled="{{#if isLoading}}disabled{{/if}}">Select Profile Picture</label>
+                                    <input id="upload-photo" type="file" class="upload-photo" style="display: none;" accept="image/*" capture="camera" disabled="{{#if isLoading}}disabled{{/if}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-lg-8">
+                            <form name="personalInfoForm" id="personalInfoForm" class="form" style="margin-bottom: 0;">
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input class="form-control" name="email" id="email" placeholder="E-mail" value="{{email}}" type="text" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>First name</label>
+                                    <input class="form-control" name="firstName" id="firstName" placeholder="First name" value="{{firstName}}" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last name</label>
+                                    <input class="form-control" name="lastName" id="lastName" placeholder="Last name" value="{{lastName}}" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input class="form-control" id="phoneNumber" placeholder="Phone Number" value="{{phoneNumber}}" type="text">
+                                </div>
+                                <div class="form-actions form-actions-padding" style="margin-bottom: 0;">
+                                    <div class="text-right m-t-lg">
+                                        <button type="submit" class="btn btn-success btn-block"><i class="icon-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+</template>

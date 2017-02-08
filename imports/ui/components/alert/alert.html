@@ -1,0 +1,11 @@
+<template name="Alert">
+    <div class="s-alert-box s-alert-{{condition}} s-alert-{{position}} {{#if effect}}s-alert-is-effect s-alert-effect-{{effect}}{{/if}} s-alert-show" id="{{_id}}" style="{{boxPosition}} z-index: 9999;">
+        <div class="s-alert-box-inner">
+            <div class="alert-content">
+                <i class="fa fa-fw fa-{{alertIcon condition}}"></i>
+                {{message}}
+            </div>
+        </div>
+        <span class="s-alert-close"></span>
+    </div>
+</template>

@@ -1,0 +1,27 @@
+<template name="AuthenticatedLayout">
+    {{> sAlert template='Alert'}}
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            {{> NavBarHeader}}
+            {{> NavBarTopLinks}}
+            {{> NavBarSideBar}}
+        </nav>
+
+        <div id="page-wrapper" style="min-height: 100vh;">
+            <div class="container-fluid" style="padding-top: 50px;">
+                {{#if loggingIn}}
+                    {{> Loading}}
+                {{else}}
+                    {{> Template.dynamic template=main}}
+                {{/if}}
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+
+    </div>
+    <!-- /#wrapper -->
+
+</template>

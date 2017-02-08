@@ -1,0 +1,32 @@
+<template name="ProjectsDetail">
+    {{#with project}}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{title}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="list-group">
+                {{#each tasks}}
+                <a href="#" class="list-group-item">
+                    <i class="fa fa-tasks fa-fw"></i> {{title}}
+                    <span class="pull-right text-muted small"><em>{{formatDateWithTime updatedDate}}</em>
+                    </span>
+                </a>
+                {{/each}}
+            </div>
+        </div>
+        <div class="col-lg-offset-1 col-lg-7">
+            {{#with task}}
+                <h2>{{title}}</h2>
+                {{#each attachments}}
+                <p>
+                    <img src="{{url}}" class="img-responsive" />
+                </p>
+                {{/each}}
+            {{/with}}
+        </div>
+    </div>
+    {{/with}}
+</template>
