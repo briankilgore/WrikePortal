@@ -1,0 +1,1 @@
+export const Comments = new Meteor.Collection('comments');

@@ -1,5 +1,8 @@
 import { ReactiveDict } from 'meteor/reactive-dict';
 import { Projects } from '../../../api/projects/projects.js';
+import { Tasks } from '../../../api/tasks/tasks.js';
+import { Attachments } from '../../../api/attachments/attachments.js';
+import { Comments } from '../../../api/comments/comments.js';
 
 import './projectsdetail.html';
 
@@ -7,10 +10,16 @@ let data = new ReactiveDict();
 let loading = new ReactiveVar();
 
 Template.ProjectsDetail.onCreated(function() {
-    data.setDefault('tasks', []);
-    let projectId = FlowRouter.getParam('projectId');
+    data.set('projectId', FlowRouter.getParam('projectId'));
+
     this.autorun(() => {
-        this.subscribe('projects.getById', projectId);
+        let response;
+        response = this.subscribe('projects.getById', data.get('projectId'));
+        response = this.subscribe('tasks.getByProjectId', data.get('projectId'));
+        response = this.subscribe('attachments.getByTaskId', data.get('taskId'));
+        response = this.subscribe('comments.getByTaskId', data.get('taskId'));
+
+        loading.set(!response.ready());
     });
 });
 
@@ -21,16 +30,8 @@ Template.ProjectsDetail.onRendered(function() {
 Template.ProjectsDetail.events({
     'click .list-group-item'(event) {
         event.preventDefault();
-        let task = this;
-        loading.set(true);
-        getTaskAttachments(task.id, function(err, res) {
-            task.attachments = res;
-            getTaskComments(task.id, function(err, res) {
-                task.comments = res;
-                data.set('task', task);
-                loading.set(false);
-            });
-        });
+        console.log(this);
+        data.set('taskId', this.id);
     },
     'submit #addComments'(event) {
         event.preventDefault();
@@ -47,68 +48,34 @@ Template.ProjectsDetail.helpers({
         let project = Projects.findOne();
         if(project) {
             data.set("project", project);
-            getProjectTasks(project.projectId);
-            Meteor.setInterval(function() {
-                getProjectTasks(project.projectId);
-            }, 5000);
         }
         return project;
     },
     tasks() {
-        let tasks = data.get('tasks');
-        console.log(tasks);
+        let tasks = Tasks.find();
+
         return tasks;
     },
     task() {
-        let task = data.get('task');
-        console.log(task);
+        let taskId = data.get('taskId');
+        let task = Tasks.findOne({ id: taskId });
+        let attachments = Attachments.find().fetch();
+        if(attachments.length) {
+            task.attachments = attachments;
+        }
+
+        let comments = Comments.find().fetch();
+        if(comments.length) {
+            task.comments = comments;
+        }
+
         return task;
     },
     loading() {
         return loading.get();
     },
     isActiveTask(id) {
-        let task = data.get('task');
-        if(task && task.id == id) {
-            return true;
-        }
+        let taskId = data.get('taskId');
+        return taskId == id;
     }
 });
-
-function getProjectTasks(projectId) {
-    Meteor.call("wrike.getProjectTasks", {projectId: projectId}, function(err, res) {
-        if(err) {
-            sAlert.error("Error retrieving task list");
-        }
-        else {
-            data.set('tasks', res.data.data);
-            // _.each(res.data.data, function(task) {
-            //     console.log(task);
-            //     Tasks.upsert(task.id, task);
-            // });
-        }
-    });
-}
-
-function getTaskAttachments(taskId, done) {
-    Meteor.call("wrike.getTaskAttachments", {taskId: taskId}, function(err, res) {
-        if(err) {
-            sAlert.error("Error retrieving attacment list");
-        }
-        else {
-            done(null, res.data.data);
-        }
-    });
-}
-
-function getTaskComments(taskId, done) {
-    Meteor.call("wrike.getTaskComments", {taskId: taskId}, function(err, res) {
-        if(err) {
-            sAlert.error("Error retrieving attacment list");
-        }
-        else {
-            console.log(res.data);
-            done(null, res.data.data);
-        }
-    });
-}
