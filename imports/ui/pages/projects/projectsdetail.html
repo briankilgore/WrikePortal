@@ -7,26 +7,49 @@
     </div>
     <div class="row">
         <div class="col-lg-4">
+            <h4>Task List</h4>
             <div class="list-group">
                 {{#each tasks}}
-                <a href="#" class="list-group-item">
+                <a href="#" class="list-group-item {{#if isActiveTask id}}active{{/if}}">
                     <i class="fa fa-tasks fa-fw"></i> {{title}}
-                    <span class="pull-right text-muted small"><em>{{formatDateWithTime updatedDate}}</em>
+                    <span class="pull-right small"><em>{{formatDateWithTime updatedDate}}</em>
                     </span>
                 </a>
                 {{/each}}
             </div>
         </div>
+        {{#if loading}}
+        <div class="col-lg-offset-1 col-lg-7">
+            Loading...
+        </div>
+        {{else}}
         <div class="col-lg-offset-1 col-lg-7">
             {{#with task}}
-                <h2>{{title}}</h2>
+                <h4>{{title}}</h4>
                 {{#each attachments}}
                 <p>
-                    <img src="{{url}}" class="img-responsive" />
+                    <img src="{{url}}" class="img-responsive" style="max-height: 500px;" />
                 </p>
                 {{/each}}
+                <p>
+                    <h4>Comments</h4>
+                    <ul class="list-unstyled">
+                        {{#each comments}}
+                        <li>{{{text}}}</li>
+                        {{/each}}
+                    </ul>
+                </p>
+                <form id="addComments">
+                    <div class="form-group input-group">
+                        <input type="text" id="comment" name="comment" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Comment</button>
+                        </span>
+                    </div>
+                </form>
             {{/with}}
         </div>
+        {{/if}}
     </div>
     {{/with}}
 </template>
