@@ -88,9 +88,31 @@ export const getTaskAttachments = new ValidatedMethod({
         };
 
         try {
-            ///api/v3/tasks/IEAGIITRKQAYHYM6/attachments
             let attachments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/attachments?withUrls=true", options);
             return attachments;
+        }
+        catch(e) {
+            console.log(e);
+            throw new Meteor.Error('error-retrieving', 'Unable to communicate with server');
+        }
+    }
+});
+
+export const getTaskComments = new ValidatedMethod({
+    name: 'wrike.getTaskComments',
+    validate: new SimpleSchema({
+        taskId: { type: String, label: "Task ID" }
+    }).validator({ clean: true }),
+    run({ taskId }) {
+        let options = {
+            headers: {
+                "Authorization": "Bearer " + Meteor.settings.private.wrike.access_token
+            }
+        };
+
+        try {
+            let comments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/comments", options);
+            return comments;
         }
         catch(e) {
             console.log(e);
