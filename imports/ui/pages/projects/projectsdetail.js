@@ -36,9 +36,7 @@ Template.ProjectsDetail.events({
     'submit #addComments'(event) {
         event.preventDefault();
         let form = event.target;
-        let task = data.get('task');
-        task.comments.push({text: form.comment.value});
-        data.set('task', task);
+        
         form.comment.value = "";
     }
 });
