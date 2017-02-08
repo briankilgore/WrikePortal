@@ -34,7 +34,8 @@ var Private = FlowRouter.group({
 Private.route('/', {
     name: 'home',
     action() {
-        BlazeLayout.render('AuthenticatedLayout', { main: 'Home' });
+        // BlazeLayout.render('AuthenticatedLayout', { main: 'Home' });
+        FlowRouter.go("/projects");
     }
 });
 
