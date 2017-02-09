@@ -5,6 +5,7 @@ import { Attachments } from '../../../api/attachments/attachments.js';
 import { Comments } from '../../../api/comments/comments.js';
 
 import '../../components/comments/comments.js';
+import '../../components/loading/loading.js';
 import './projectsdetail.html';
 
 let data = new ReactiveDict();

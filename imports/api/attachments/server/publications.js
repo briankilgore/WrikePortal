@@ -15,7 +15,6 @@ Meteor.publish('attachments.getByTaskId', function (taskId) {
             let self = this;
             let pollingFactor = (Meteor.settings.public.env == "development") ? .1 : 1;
             (function doPoll() {
-                console.log("attachments.getByTaskId");
                 let attachments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/attachments?withUrls=true", options);
 
                 _.each(attachments.data.data, (attachment) => {
