@@ -12,13 +12,19 @@ Meteor.publish('attachments.getByTaskId', function (taskId) {
         };
 
         try {
-            let attachments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/attachments?withUrls=true", options);
-            // console.log(attachments.data);
-            _.each(attachments.data.data, (attachment) => {
-                this.added('attachments', Random.id(), attachment);
-            });
+            let self = this;
+            let pollingFactor = (Meteor.settings.public.env == "development") ? .1 : 1;
+            (function doPoll() {
+                console.log("attachments.getByTaskId");
+                let attachments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/attachments?withUrls=true", options);
 
-            this.ready();
+                _.each(attachments.data.data, (attachment) => {
+                    self.added('attachments', attachment.id, attachment);
+                });
+
+                self.ready();
+                Meteor.setTimeout(doPoll, 60000 * pollingFactor);
+            })();
         }
         catch(e) {
             console.log(e);

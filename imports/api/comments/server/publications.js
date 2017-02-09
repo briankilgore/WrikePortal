@@ -12,16 +12,22 @@ Meteor.publish('comments.getByTaskId', function (taskId) {
         };
 
         try {
-            let comments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/comments", options);
+            let self = this;
+            let pollingFactor = (Meteor.settings.public.env == "development") ? .1 : 1;
+            (function doPoll() {
+                let comments = HTTP.call("GET", baseUrl + "/tasks/" + taskId + "/comments", options);
 
-            _.each(comments.data.data, (comment) => {
-                this.added('comments', Random.id(), comment);
-            });
+                _.each(comments.data.data, (comment) => {
+                    // console.log(comment);
+                    self.added('comments', comment.id, comment);
+                });
 
-            this.ready();
+                self.ready();
+                Meteor.setTimeout(doPoll, 60000 * pollingFactor);
+            })();
         }
         catch(e) {
-            console.log(e);
+            // console.log(e);
             throw new Meteor.Error('error-retrieving', 'Unable to communicate with server');
         }
     }
