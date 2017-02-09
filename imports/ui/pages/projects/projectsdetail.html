@@ -19,7 +19,7 @@
             </div>
         </div>
         {{#if loading}}
-        <div class="col-lg-offset-1 col-lg-7">
+        <div class="col-lg-offset-1 col-lg-7 text-center">
             Loading...
         </div>
         {{else}}
@@ -30,18 +30,26 @@
                         <h4>{{title}}</h4>
                     </div>
                     <div class="panel-body">
+                        {{#if description}}
                         {{{description}}}
+                        {{else}}
+                        No description
+                        {{/if}}
                         <div id="attachments" class="row">
-                        {{#each attachments}}
-                            {{#if isImage}}
-                            <div class="overlay-container" style="max-width: 225px; margin: 10px;" >
-                                <img src="{{url}}" class="image" />
-                                <div class="overlay">
-                                    <div class="overlay-text">Hello World</div>
+                            <div class="col-lg-12">
+                            {{#each attachments}}
+                                {{#if isImage}}
+                                <div class="col-lg-4" style="padding: 15px;" >
+                                    <div class="overlay-container image-container" >
+                                        <img src="{{url}}" class="image" />
+                                        <div class="overlay">
+                                            <div class="overlay-text">{{name}}</div>
+                                        </div>
+                                    </div>
                                 </div>
+                                {{/if}}
+                            {{/each}}
                             </div>
-                            {{/if}}
-                        {{/each}}
                         </div>
                     </div>
                     <!-- /.panel-body -->

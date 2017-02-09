@@ -33,7 +33,7 @@ Template.ProjectsDetail.events({
         console.log(this);
         data.set('taskId', this.id);
     },
-    'click #attachments>img'(event) {
+    'click #attachments .image-container'(event) {
         event.preventDefault();
         console.log(this);
         data.set('activeImage', this);
