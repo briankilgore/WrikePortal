@@ -9,23 +9,7 @@ Template.ProjectsList.onCreated(function() {
 });
 
 Template.ProjectsList.onRendered(function() {
-    // Meteor.call("wrike.getAllProjects", function(err, res) {
-    //     if(err) {
-    //         sAlert.error("Error retrieving project list");
-    //     }
-    //     else {
-    //         // console.log(res.data);
-    //         // data.set(res.data);
-    //         let data = [];
-    //         _.each(res.data.data, function(project) {
-    //             // data.push(project);
-    //             Projects.insert(project);
-    //         });
-    //         // console.log(data);
 
-    //         // Projects.insert(data);
-    //     }
-    // });
 });
 
 Template.ProjectsList.events({

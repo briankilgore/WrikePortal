@@ -25,17 +25,32 @@
         {{else}}
         <div class="col-lg-offset-1 col-lg-7">
             {{#with task}}
-                <h4>{{title}}</h4>
-                {{#each attachments}}
-                <p>
-                    <img src="{{url}}" class="img-responsive" style="max-height: 500px;" />
-                </p>
-                {{/each}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>{{title}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        {{{description}}}
+                        <div id="attachments" class="row">
+                        {{#each attachments}}
+                            {{#if isImage}}
+                            <div class="overlay-container" style="max-width: 225px; margin: 10px;" >
+                                <img src="{{url}}" class="image" />
+                                <div class="overlay">
+                                    <div class="overlay-text">Hello World</div>
+                                </div>
+                            </div>
+                            {{/if}}
+                        {{/each}}
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
                 <div class="chat-panel panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-comments fa-fw"></i> Comments
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="max-height: 250px;">
                         <ul class="chat">
                             {{#each comments}}
                             <li class="left clearfix">
@@ -72,4 +87,24 @@
         {{/if}}
     </div>
     {{/with}}
+
+    {{> ImageModal image}}
+</template>
+
+<template name="ImageModal">
+    
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{name}}</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="{{url}}" class="img-responsive" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </template>

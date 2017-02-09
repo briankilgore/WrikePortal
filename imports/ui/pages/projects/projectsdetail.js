@@ -33,11 +33,19 @@ Template.ProjectsDetail.events({
         console.log(this);
         data.set('taskId', this.id);
     },
+    'click #attachments>img'(event) {
+        event.preventDefault();
+        console.log(this);
+        data.set('activeImage', this);
+        $('#myModal').modal();
+    },
     'submit #addComments'(event) {
         event.preventDefault();
         let form = event.target;
-        
-        form.comment.value = "";
+        Meteor.call('wrike.addComment', { taskId: this.id, comment: form.comment.value }, function(err, res) {
+            console.log(err, res);
+            form.comment.value = "";
+        });
     }
 });
 
@@ -66,7 +74,7 @@ Template.ProjectsDetail.helpers({
         if(comments.length) {
             task.comments = comments;
         }
-
+// console.log(task);
         return task;
     },
     loading() {
@@ -75,5 +83,13 @@ Template.ProjectsDetail.helpers({
     isActiveTask(id) {
         let taskId = data.get('taskId');
         return taskId == id;
+    },
+    isImage() {
+        return this.contentType == "image/jpeg";
+    },
+    image() {
+        let image = data.get('activeImage');
+        console.log(image);
+        return image;
     }
 });

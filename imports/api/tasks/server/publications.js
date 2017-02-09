@@ -10,6 +10,11 @@ Meteor.publish('tasks.getByProjectId', function (projectId) {
         let options = {
             headers: {
                 "Authorization": "Bearer " + Meteor.settings.private.wrike.access_token
+            },
+            params: {
+                fields: JSON.stringify([
+                    'description'
+                ])
             }
         };
 
@@ -19,6 +24,7 @@ Meteor.publish('tasks.getByProjectId', function (projectId) {
             let tasks = HTTP.call("GET", baseUrl + "/folders/" + project.projectId + "/tasks", options);
             
             _.each(tasks.data.data, (task) => {
+                console.log(task);
                 this.added('tasks', Random.id(), task);
             });
 
