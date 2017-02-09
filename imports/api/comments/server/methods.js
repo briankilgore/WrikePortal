@@ -5,8 +5,8 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 let baseUrl = "https://www.wrike.com/api/v3";
 
-export const getTaskComments = new ValidatedMethod({
-    name: 'wrike.addComment',
+export const addCommentToTask = new ValidatedMethod({
+    name: 'comments.addToTask',
     validate: new SimpleSchema({
         taskId: { type: String, label: "Task ID" },
         comment: { type: String, label: "Comment text" }
