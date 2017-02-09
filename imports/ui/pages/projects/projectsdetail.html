@@ -20,7 +20,7 @@
         </div>
         {{#if loading}}
         <div class="col-lg-offset-1 col-lg-7 text-center">
-            Loading...
+            <span style="position: relative; top: 50px;">Loading...</span>
         </div>
         {{else}}
         <div class="col-lg-offset-1 col-lg-7">
@@ -52,43 +52,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.panel-body -->
                 </div>
-                <div class="chat-panel panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-comments fa-fw"></i> Comments
-                    </div>
-                    <div class="panel-body" style="max-height: 250px;">
-                        <ul class="chat">
-                            {{#each comments}}
-                            <li class="left clearfix">
-                                <div class="clearfix">
-                                    <div class="header">
-                                        <small class="pull-right text-muted">
-                                            <i class="fa fa-clock-o fa-fw"></i> {{formatDateWithTime updatedDate}}
-                                        </small>
-                                    </div>
-                                    <p>
-                                        {{{text}}}
-                                    </p>
-                                </div>
-                            </li>
-                            {{/each}}
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <form id="addComments">
-                            <div class="input-group">
-                                <input id="comment" name="comment" type="text" class="form-control input-sm" placeholder="Type your message here...">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-warning btn-sm">
-                                        Comment
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                {{> Comments comments=comments taskId=id}}
 
             {{/with}}
         </div>
