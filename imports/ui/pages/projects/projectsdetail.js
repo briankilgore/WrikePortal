@@ -4,6 +4,7 @@ import { Tasks } from '../../../api/tasks/tasks.js';
 import { Attachments } from '../../../api/attachments/attachments.js';
 import { Comments } from '../../../api/comments/comments.js';
 
+import '../../components/comments/comments.js';
 import './projectsdetail.html';
 
 let data = new ReactiveDict();
@@ -38,14 +39,6 @@ Template.ProjectsDetail.events({
         console.log(this);
         data.set('activeImage', this);
         $('#myModal').modal();
-    },
-    'submit #addComments'(event) {
-        event.preventDefault();
-        let form = event.target;
-        Meteor.call('wrike.addComment', { taskId: this.id, comment: form.comment.value }, function(err, res) {
-            console.log(err, res);
-            form.comment.value = "";
-        });
     }
 });
 
@@ -58,19 +51,20 @@ Template.ProjectsDetail.helpers({
         return project;
     },
     tasks() {
-        let tasks = Tasks.find();
+        let tasks = Tasks.find({}, {sort: { updatedDate: -1 }});
 
         return tasks;
     },
     task() {
         let taskId = data.get('taskId');
         let task = Tasks.findOne({ id: taskId });
-        let attachments = Attachments.find().fetch();
+        let attachments = Attachments.find({}, {sort: { updatedDate: -1 }}).fetch();
+        // console.log(attachments);
         if(attachments.length) {
             task.attachments = attachments;
         }
 
-        let comments = Comments.find().fetch();
+        let comments = Comments.find({}, {sort: { updatedDate: 1 }}).fetch();
         if(comments.length) {
             task.comments = comments;
         }
