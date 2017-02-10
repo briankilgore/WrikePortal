@@ -1,5 +1,6 @@
 // Register your apis here
 
+import '../../api/attachments/server/methods.js';
 import '../../api/attachments/server/publications.js';
 
 import '../../api/comments/server/methods.js';

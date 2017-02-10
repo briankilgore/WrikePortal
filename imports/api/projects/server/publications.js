@@ -42,16 +42,16 @@ Meteor.publish('projects.getAll', function () {
 
         try {
             let user = Meteor.users.findOne(this.userId);
-            //{"key":"sugar_account_id","value":"03b12176-ec02-11e6-b688-9a9ad8099ce9"}
+
             let metadata = {
                 key: "sugar_account_id",
                 value: user.accountId
             };
 
-            let url = baseUrl + "/folders/" + Meteor.settings.private.wrike.customer_folder_id + "/folders?metadata=" + JSON.stringify(metadata);
-            console.log(url);
-            let projects = HTTP.call("GET", url, options);
+            let accountFolder = HTTP.call("GET", baseUrl + "/folders/" + Meteor.settings.private.wrike.customer_folder_id + "/folders?metadata=" + JSON.stringify(metadata), options);            
+            let childIds = accountFolder.data.data[0].childIds.join(",");
 
+            let projects = HTTP.call("GET", baseUrl + "/folders/" + childIds, options);   
             _.each(projects.data.data, (project) => {
                 this.added('projects', Random.id(), project);
             });

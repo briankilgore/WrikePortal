@@ -40,6 +40,22 @@ Template.ProjectsDetail.events({
         console.log(this);
         data.set('activeImage', this);
         $('#myModal').modal();
+    },
+    "change input[type='file']#add-attachment"(event) {
+        const files = event.currentTarget.files;
+
+        if(files.length == 0) {
+            return;
+        }
+
+        sAlert.info("Not yet implemented");
+        // var fileReader = new FileReader();
+        // fileReader.onload = function() { 
+        //     console.log(fileReader.result); 
+        // };
+        // fileReader.readAsBinaryString(files[0]);
+
+        // console.log(files);
     }
 });
 
@@ -86,5 +102,25 @@ Template.ProjectsDetail.helpers({
         let image = data.get('activeImage');
         console.log(image);
         return image;
+    },
+    icon() {
+        console.log(this);
+        switch(this.contentType) {
+            case "application/pdf":
+                return "fa fa-file-pdf-o";
+                break;
+            case "application/msword":
+                return "fa fa-file-word-o";
+                break;
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                return "fa fa-file-excel-o";
+                break;
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+                return "fa fa-file-powerpoint-o";
+                break;
+            default:
+                return "fa fa-file-o";
+                break;
+        }
     }
 });
